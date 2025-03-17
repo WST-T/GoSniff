@@ -30,7 +30,6 @@ func main() {
 		AllowCredentials: false,
 		MaxAge:           300,
 	}))
-
 	v1Router := chi.NewRouter()
 	v1Router.Get("/healthz", handlerRead)
 	v1Router.Get("/error", handlerError)

@@ -28,6 +28,3 @@ go.work.sum
 .env
 sniffconfig.json
 .vscode/
-/vendor/
-vendor/
-vendor

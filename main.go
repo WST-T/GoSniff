@@ -6,10 +6,15 @@ import (
 	"os"
 	"time"
 
+	"github.com/WST-T/GoSniff/internal/database"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
 )
+
+type apiConfig struct {
+	DB *database.Queries
+}
 
 func main() {
 

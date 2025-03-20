@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/WST-T/GoSniff/internal/auth"
 	"github.com/WST-T/GoSniff/internal/database"
 	"github.com/google/uuid"
 )
@@ -29,6 +30,22 @@ func (apiCfg *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Reques
 		UpdatedAt: time.Now().UTC(),
 		Name:      params.Name,
 	})
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	respondWithJSON(w, http.StatusOK, databaseUserToUser(user))
+}
+
+func (apiCfg *apiConfig) handlerGetUser(w http.ResponseWriter, r *http.Request) {
+	apiKey, err := auth.GetAPIKey(r.Header)
+	if err != nil {
+		respondWithError(w, http.StatusUnauthorized, err.Error())
+		return
+	}
+
+	user, err := apiCfg.DB.GetUserByAPIKey(r.Context(), apiKey)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return

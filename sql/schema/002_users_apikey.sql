@@ -4,4 +4,4 @@ ALTER TABLE users ADD column apikey VARCHAR(64) UNIQUE NOT NULL DEFAULT (
 );
 
 -- +goose Down
-ALTER T ABLE users DROP COLUMN apikey;
+ALTER TABLE users DROP COLUMN apikey;

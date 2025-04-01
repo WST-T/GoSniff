@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/WST-T/GoSniff/internal/database"
+	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 )
 
@@ -47,4 +48,24 @@ func (apiCfg *apiConfig) handlerGetFeedFollows(w http.ResponseWriter, r *http.Re
 	}
 
 	respondWithJSON(w, http.StatusOK, databaseFeedFollowsToFeedFollows(feedFollows))
+}
+
+func (apiCfg *apiConfig) handlerDeleteFeedFollow(w http.ResponseWriter, r *http.Request, user database.User) {
+	feedFollowIDstr := chi.URLParam(r, "feedFollowID")
+	feedFollowID, err := uuid.Parse(feedFollowIDstr)
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid feed follow ID")
+		return
+	}
+
+	err = apiCfg.DB.DeleteFeedFollow(r.Context(), database.DeleteFeedFollowParams{
+		ID:     feedFollowID,
+		UserID: user.ID,
+	})
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	respondWithJSON(w, http.StatusOK, map[string]string{"status": "nicely deleted"})
 }

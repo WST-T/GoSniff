@@ -78,6 +78,4 @@ MIT License - feel free to use this project however you'd like!
 - Goose for easy database migrations
 - And all other open source contributors!
 
-------------------
 Made with ❤️ using Go
-------------------

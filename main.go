@@ -37,9 +37,13 @@ func main() {
 		log.Fatal("Cant't connect to the database", err)
 	}
 
+	db := database.New(conn)
+
 	apiCfg := &apiConfig{
-		DB: database.New(conn),
+		DB: db,
 	}
+
+	go startScraping(db, 10, 5*time.Second)
 
 	router := chi.NewRouter()
 
